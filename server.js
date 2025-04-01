@@ -33,7 +33,7 @@ app.use(cors({ origin: '*' }));
   }
 });
  */
-app.post('/create-payment-intent', async (req, res) => {
+app.post('/api/create-payment-intent', async (req, res) => {
     try {
         const { amount, currency, paymentMethodId } = req.body;
 
@@ -106,7 +106,7 @@ app.post('/api/create-subscription', async (req, res) => {
 });
 
   
-  app.get('/products', async (req, res) => {
+  app.get('/api/products', async (req, res) => {
     try {
         // Fetch all products with their prices
         const products = await stripe.products.list();
@@ -137,7 +137,7 @@ app.post('/api/create-subscription', async (req, res) => {
     }
 });
 
-app.get("/customers-with-subscriptions", async (req, res) => {
+app.get("/api/customers-with-subscriptions", async (req, res) => {
     try {
       // Fetch all customers (limit to 100, you can paginate for more)
       const customersResponse = await stripe.customers.list({ limit: 100 });
@@ -168,7 +168,7 @@ app.get("/customers-with-subscriptions", async (req, res) => {
     }
   });
   
-app.get("/subscriptions/", async (req, res) => {
+app.get("/api/subscriptions/", async (req, res) => {
     try {
     //   const { customerId } = req.params;
   
@@ -188,7 +188,7 @@ app.get("/subscriptions/", async (req, res) => {
     }
   });
 
-  app.get("/customer", async (req, res) => {
+  app.get("/api/customer", async (req, res) => {
     try {
     //   const { customerId } = req.params;
   
@@ -219,7 +219,7 @@ app.get("/subscriptions/", async (req, res) => {
   });
   
 
-  app.get("/getAllSubscriptions" , async (req, res) => {
+  app.get("/api/getAllSubscriptions" , async (req, res) => {
     try {
       const subscriptions = await stripe.subscriptions.list(); // Fetching latest 10 subscriptions
   
@@ -236,7 +236,7 @@ app.get("/subscriptions/", async (req, res) => {
     }
   })
 
-  app.post("/cancel-subscription", async (req, res) => {
+  app.post("/api/cancel-subscription", async (req, res) => {
     try {
       const { subscriptionId } = req.body;
   
