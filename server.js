@@ -6,6 +6,37 @@ app.use(express.json());
 app.use(cors({ origin: '*' }));
 const PORT = 5000;
 
+
+
+// checkout session
+
+app.post("/api/create-checkout-session", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card", "apple_pay", "google_pay"], // Enable Apple Pay & Google Pay
+      ui_mode: "hosted",
+      line_items: [
+        {
+          price: "price_1R68vePQ16HYEMcYu7ScW7Cy", // Replace with your actual Price ID (must be a subscription price)
+          quantity: 1,
+        },
+      ],
+      mode: "subscription", // <-- Changed from "payment" to "subscription"
+      success_url: `http://localhost:4200/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `http://localhost:4200/cancel`,
+    });
+
+    res.json({ sessionId: session.id });
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+// emberded mode
+
 app.post('/api/register-domain', async (req, res) => {
   try {
     const paymentMethodDomain = await stripe.paymentMethodDomains.create({
